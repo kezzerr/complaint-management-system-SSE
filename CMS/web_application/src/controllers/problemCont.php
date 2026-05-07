@@ -4,6 +4,7 @@
 
 require_once __DIR__ . '/../models/problemRepo.php';
 require_once __DIR__ . '/../database.php';
+require_once __DIR__ . '/../services/loggingService.php';
 
 class ViewProblemsController {
 
@@ -27,11 +28,23 @@ class ViewProblemsController {
 
         $problemId = $this->problemRepo->create($userId, $orgId, $title, $desc);
 
+        # SECURITY FIX
+        # Weakness ID: W3
+        # Fix ID: F3 – Audit Logging
+        # STRIDE: Repudiation
+        # OWASP: A09 Security Logging and Alerting Failures
+        # CWE: CWE-778
+        # CIA: Integrity
+        # ASVS: V16 – Security Logging and Error Handling
+        # D3FEND: D3-AZET - Authorization Event Thresholding
+
+        loggingService::log("PROBLEM_SUBMITTED, USER_ID = " . $_SESSION["user_id"] . ", PROBLEM_ID = " . $problemId);
+
         return ['success' => true, 'errors' => [], 'problem_id' => $problemId];
     }
 
-    public function getProblems($userId) {
+    public function getProblems($userId, $orgId) {
 
-        return $this->problemRepo->getProblemsByUserId($userId);
+        return $this->problemRepo->getProblemsByIds($userId, $orgId);
     }
 }

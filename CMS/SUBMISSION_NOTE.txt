@@ -1,0 +1,5 @@
+Submission Note
+---------------
+
+1. From my SAAD portfolio for context: "For the proof-of-concept prototype I stripped down the technology stack to something I was more comfortable developing with (Bootstrap, PHP, SQLite), instead choosing to highlight key architectural patterns and functional/non-functional requirements to demonstrate system feasibility rather than a full production implementation. The proposed full production technology stack (React, Laravel, PostgreSQL) builds upon the concepts shown in the proof-of-concept by using more scalable, business-oriented technologies while keeping the same architectural principles."
+2. I received this message from Carlos "- Make sure you commit your fixes, with one commit for each fix and a clear log message" after already implenting the security fixes locally, so they will be uploaded in one batch rather than individually.

@@ -13,12 +13,12 @@ class UserService {
         $this->repo = new UserRepository();
     }
 
-    public function filterUsers($searchInput) {
+    public function filterUsers($searchInput, $orgId) {
         
         if (empty($searchInput)) {
-            return $this->repo->getAllUsers();
+            return $this->repo->getAllUsers($orgId);
         }
 
-        return $this->repo->getUsersByEmail($searchInput);
+        return $this->repo->getUsersByEmail($searchInput, $orgId);
     }
 }

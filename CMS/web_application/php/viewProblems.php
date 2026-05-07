@@ -5,12 +5,16 @@
 require_once __DIR__ . '/../src/controllers/problemCont.php';
 require __DIR__ . '/../src/views/navbar.php';
 require_once __DIR__ . '/../src/middleware/authenticate.php';
+require_once __DIR__ . '/../src/services/loggingService.php';
 
 Authenticate::requireAgent();
 
 $controller = new ViewProblemsController();
 $userId = $_GET['user_id'] ?? null;
-$problems = $controller->getProblems($userId);
+$orgId = $_SESSION['org_id'];
+$problems = $controller->getProblems($userId, $orgId);
+
+loggingService::log("PROBLEMS_VIEWED, VIEWER_ID = " . $_SESSION["user_id"] . ", USER_ID = " . $userId  . ", ORG_ID = " . $orgId);
 
 ?>
 
@@ -51,15 +55,27 @@ $problems = $controller->getProblems($userId);
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($problems as $p): ?>
+                                <?php foreach ($problems as $problem): 
+                                    
+                                    # SECURITY FIX
+                                    # Weakness ID: W2
+                                    # Fix ID: F2 – Encoding
+                                    # STRIDE: Tampering/Information Disclosure
+                                    # OWASP: A05 Injection
+                                    # CWE: CWE-79
+                                    # CIA: Integrity, Confidentiality
+                                    # ASVS: V1.2 Injection Prevention
+                                    # D3FEND: D3-DLV - Domain Logic Validation
+
+                                ?>
                                     <tr>
-                                        <td><?= $p["problem_id"] ?></td>
-                                        <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= $p["title"] ?></td>
-                                        <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= $p["description"] ?></td>
-                                        <td><?= $p["status"] ?></td>
-                                        <td><?= $p["assigned_to"] ?: "-" ?></td>
-                                        <td><?= $p["created_at"] ?></td>
-                                        <td><?= $p["updated_at"] ?></td>
+                                        <td><?= htmlspecialchars($problem["problem_id"], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= htmlspecialchars($problem["title"], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= htmlspecialchars($problem["description"], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td><?= htmlspecialchars($problem["status"], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td><?= htmlspecialchars($problem["assigned_to"], ENT_QUOTES, 'UTF-8') ?: "-" ?></td>
+                                        <td><?= htmlspecialchars($problem["created_at"], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td><?= htmlspecialchars($problem["updated_at"], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><a class="btn btn-sm btn-primary">Assign</a></td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -10,7 +10,8 @@ Authenticate::requireAgent();
 
 $service = new UserService();
 $searchText = $_POST['search'] ?? '';
-$accounts = $service->filterUsers($searchText);
+$orgId = $_SESSION['org_id'];
+$accounts = $service->filterUsers($searchText, $orgId);
 
 ?>
 
@@ -61,11 +62,11 @@ $accounts = $service->filterUsers($searchText);
                         <tbody>
                         <?php foreach ($accounts as $acc): ?>
                             <tr>
-                                <td><?= $acc[0] ?></td>
-                                <td><?= $acc[2] ?></td>
-                                <td><?= $acc[3] ?></td>
-                                <td><?= $acc[4] ?></td>
-                                <td><a href="viewProblems.php?user_id=<?= $acc[0] ?>" class="btn btn-sm btn-primary">View</a></td>
+                                <td><?= htmlspecialchars($acc[0], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($acc[2], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($acc[3], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($acc[4], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><a href="viewProblems.php?user_id=<?= urlencode($acc[0]) ?>" class="btn btn-sm btn-primary">View</a></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

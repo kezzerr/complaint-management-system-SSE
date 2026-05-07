@@ -15,8 +15,8 @@ class ProblemService {
         $this->repo = new ProblemRepository($db->getConnection());
     }
 
-    public function getProblemById($id) {
+    public function getProblemByIds($id, $orgId) {
 
-        return $this->repo->getProblemById($id);
+        return $this->repo->getProblemByIds($id, $orgId);
     }
 }

@@ -2,10 +2,6 @@
 
 //webpage which allows the user to login to their account
 
-session_start();
-session_unset();
-session_destroy();
-
 require_once __DIR__ . '/../src/controllers/login.php';
 require __DIR__ . '/../src/views/navbar.php';
 

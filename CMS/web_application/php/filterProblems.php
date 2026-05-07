@@ -10,10 +10,11 @@ Authenticate::requireAgent();
 
 $service = new ProblemService();
 $searchId = $_POST['search'] ?? '';
+$orgId = $_SESSION['org_id'];
 $problem = null;
 
 if (!empty($searchId)) {
-    $problem = $service->getProblemById($searchId);
+    $problem = $service->getProblemByIds($searchId, $orgId);
 }
 
 ?>
@@ -68,14 +69,14 @@ if (!empty($searchId)) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td><?= $problem['problem_id'] ?></td>
-                                <td><?= $problem['user_id'] ?></td>
-                                <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= $problem['title'] ?></td>
-                                <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= $problem['description'] ?></td>
-                                <td><?= $problem["status"] ?></td>
-                                <td><?= $problem["assigned_to"] ?: "-" ?></td>
-                                <td><?= $problem["created_at"] ?></td>
-                                <td><?= $problem["updated_at"] ?></td>
+                                <td><?= htmlspecialchars($problem['problem_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($problem['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= htmlspecialchars($problem['title'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td style="max-width:250px; white-space:normal; word-wrap:break-word;"><?= htmlspecialchars($problem['description'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($problem["status"], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($problem["assigned_to"], ENT_QUOTES, 'UTF-8') ?: "-" ?></td>
+                                <td><?= htmlspecialchars($problem["created_at"], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($problem["updated_at"], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><a class="btn btn-sm btn-primary">Assign</a></td>
                             </tr>
                         </tbody>
